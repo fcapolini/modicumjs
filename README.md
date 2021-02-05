@@ -63,7 +63,7 @@ const data = new Data({
 data.addConsumer(view);
 ```
 
-* `view` defines a block with a dynamic title and and empty unordered list
+* `view` defines a block with a dynamic title and an empty unordered list
 
 * `item` is its child and it appends its DOM to `view`'s `<ul>` element (thanks to the name "list" given via `<ul>`'s "aka" attribute and referred to by `item`'s "plug" property)
 
@@ -84,7 +84,7 @@ data.addConsumer(view);
   ]});
   ```
 
-  exceeding items are discarded, missing items are created, and existing items are updates.
+  exceeding items are discarded, missing items are created, and existing items are updated.
 
 ## Classes
 
@@ -111,7 +111,7 @@ constructor(parent:View, props:ViewProps, didInit?:(v:View)=>void)
 
 Views must normally have a parent. `View.head` and `View.body` are provided as useful parents. You can create a parent View anchored to any other DOM element if needed (see `View.body` initialization as an example of that).
 
-A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or build from the `markup` property. The newly created DO fragment is scanned and named Elemens (through the `aka` attribute), plus named texts (through the `[[name]]` syntax are collected).
+A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or build from the `markup` property. The newly created DOM fragment is scanned and named Elements (through the `aka` attribute), plus named texts (through the `[[name]]` syntax, are collected).
 
 ```typescript
 get(aka:string): Element
@@ -151,13 +151,15 @@ interface DataConsumer {
 }
 ```
 
+DataConsumers can be registered with Data instances in order to be notified then data changes.
+
 ### class Data
 
 ```typescript
 constructor(data:any)
 ```
 
-A Data instance is a simple data container. An initial value can be passed a instantiation.
+A Data instance is a simple data container. An initial value can be passed at instantiation.
 
 ```typescript
 setData(data?:any)
@@ -199,4 +201,3 @@ getIntance(id:string): View|undefined
 ```
 
 Instances created with an `id` attribute are accessible via this method.
-
