@@ -11,8 +11,8 @@ import Data from "./modicum/Data";
 import View from "./modicum/View";
 
 const view = new View(View.body, {
-	markup: `<div>Seconds: [[text]]</div>`,
-	ondata: (v:View, d) => v.set('text', d)
+    markup: `<div>Seconds: [[text]]</div>`,
+    ondata: (v:View, d) => v.set('text', d)
 });
 
 const count = new Data(0).addConsumer(view);
@@ -34,11 +34,11 @@ import Data from "./src/modicum/Data";
 import View from "./src/modicum/View";
 
 const view = new View(View.body, {
-	markup: `<div>
-		<h3>[[title]]</h3>
-		<ul aka="list"></ul>
-	</div>`,
-	ondata: (v:View, d) => v.set('title', d.title)
+    markup: `<div>
+        <h3>[[title]]</h3>
+        <ul aka="list"></ul>
+    </div>`,
+    ondata: (v:View, d) => v.set('title', d.title)
 });
 
 const item = new View(p, {
@@ -52,13 +52,13 @@ const item = new View(p, {
 });
 
 const data = new Data({
-	title: 'Mail',
-	items: [
-		{title: 'Inbox', count: 10},
-		{title: 'Flagged', count: 4},
-		{title: 'Drafts', count: 3},
-		{title: 'Sent', count: 7},
-	]
+    title: 'Mail',
+    items: [
+        {title: 'Inbox', count: 10},
+        {title: 'Flagged', count: 4},
+        {title: 'Drafts', count: 3},
+        {title: 'Sent', count: 7},
+    ]
 });
 data.addConsumer(view);
 ```
@@ -79,8 +79,8 @@ data.addConsumer(view);
 
   ```typescript
   data.setData({title: 'Mail', items:[
-  	{title: 'Inbox', count: 10},
-  	{title: 'Flagged', count: 4},
+      {title: 'Inbox', count: 10},
+      {title: 'Flagged', count: 4},
   ]});
   ```
 
@@ -94,12 +94,12 @@ ModicumJS is a truly minimal yet fully functional reactive web framework. It has
 
 ```typescript
 interface ViewProps {
-	dom?: Element;
-	markup?: string;
-	plug?: string;
-	datapath?: (v:View, d:any)=>any;
-	ondata?: (v:View, d:any)=>void;
-	childrendata?: (v:View, d:any)=>any;
+    dom?: Element;
+    markup?: string;
+    plug?: string;
+    datapath?: (v:View, d:any)=>any;
+    ondata?: (v:View, d:any)=>void;
+    childrendata?: (v:View, d:any)=>any;
 }
 ```
 
@@ -147,7 +147,7 @@ Sets the range of array elements to consider for View replication.
 
 ```typescript
 interface DataConsumer {
-	setData(d:any): void;
+    setData(d:any): void;
 }
 ```
 
@@ -187,7 +187,7 @@ Can be used to force data notification to registered DataConsumers regardless of
 
 ```typescript
 constructor(name:string, props?:ViewProps,
-		didInit?:(v:View)=>void, willDispose?:(v:View)=>void)
+        didInit?:(v:View)=>void, willDispose?:(v:View)=>void)
 ```
 
 A Tag defines a standard [Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements). When an instance is created, a wrapping View is created and the optional `didInit` callback is called. When an instance is destroyed the optional `willDispose` is called.
