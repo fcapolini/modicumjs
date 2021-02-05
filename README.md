@@ -194,7 +194,7 @@ constructor(name:string, props?:ViewProps,
 
 A Tag defines a standard [Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements). When an instance is created, a wrapping View is created and the optional `didInit` callback is called. When an instance is destroyed the optional `willDispose` is called.
 
-Custom Elements are useful e.g. for integrating with Web Component-based framework like Ionic.
+Custom Elements are useful e.g. for integrating with Web Components-based framework like Ionic.
 
 ```typescript
 getIntance(id:string): View|undefined
