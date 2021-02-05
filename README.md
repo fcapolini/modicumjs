@@ -20,7 +20,7 @@ const count = new Data(0).addConsumer(view);
 setInterval(() => count.setData(count.data + 1), 1000);
 ```
 
-* `view` is child of the page `body` element
+* `view`'s content is child of the `body` element
 * it defines a simple `div` with a partially dynamic text
 * when it receives data, it updates the dynamic part
 * `count` contains a simple numeric value
@@ -65,7 +65,7 @@ data.addConsumer(view);
 
 * `view` defines a block with a dynamic title and and empty unordered list
 
-* `item` is its child and it appends its DOM to `view`'s `<ul>` element (thanks to the name "list" given via `<ul>`'s "aka" attribute referred by `item`'s "plug" property)
+* `item` is its child and it appends its DOM to `view`'s `<ul>` element (thanks to the name "list" given via `<ul>`'s "aka" attribute and referred to by `item`'s "plug" property)
 
 * `view` is registered as a consumer of `data` and it sets its title accordingly
 
