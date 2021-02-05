@@ -84,7 +84,7 @@ data.addConsumer(view);
   ]});
   ```
 
-  exceeding items are discarded, missing items are created, and existing items are updated.
+  exceeding clones are discarded, missing clones are created, and existing clones are updated.
 
 ## Classes
 
