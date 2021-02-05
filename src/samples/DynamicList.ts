@@ -41,7 +41,7 @@ function dynamicList() {
 		if (i1 >= i2) delta = -1;
 		if (i1 <= 0) delta = 1;
 		items.setDataRange(i1, i2);
-	}, 1000);
+	}, 500);
 }
 
 export default dynamicList;
