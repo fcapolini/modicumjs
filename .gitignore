@@ -1,0 +1,5 @@
+node_modules
+app/bin
+app/css
+app/ionic
+app/lib/require.js
