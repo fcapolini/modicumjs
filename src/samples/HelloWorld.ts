@@ -1,12 +1,15 @@
+import Data from "../modicum/Data";
 import View from "../modicum/View";
 
 function helloWorld() {
-	const body = new View(undefined, {dom:document.body});
-	new View(body, {
-		markup: '<div class="ion-padding">[[text]]</div>'
-	}, p => {
-		p.setNode('text', 'Hi there!');
+	const view = new View(View.body, {
+		markup: `<div>Seconds: [[text]]</div>`,
+		ondata: (v:View, d) => v.set('text', d)
 	});
+	
+	const count = new Data(0).addConsumer(view);
+	
+	setInterval(() => count.setData(count.data + 1), 1000);
 }
 
 export default helloWorld;

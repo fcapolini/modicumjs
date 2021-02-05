@@ -9,7 +9,9 @@ export interface ViewProps {
 }
 
 export default class View {
-	parent?: View;
+	static body = new View(null, {dom:document.body});
+	static head = new View(null, {dom:document.head});
+	parent: View|null;
 	root: View;
 	props: ViewProps;
 	children: View[];
@@ -18,7 +20,7 @@ export default class View {
 	cloneIndex: number;
 
 	constructor(
-		parent:View|undefined, props:ViewProps, didInit?:(v:View)=>void,
+		parent:View|null, props:ViewProps, didInit?:(v:View)=>void,
 		cloneOf?:View
 	) {
 		this.parent = parent;
@@ -38,12 +40,17 @@ export default class View {
 		}
 	}
 
-	getElement(aka:string): Element {
+	get(aka:string): Element {
 		return <Element>this._nodes.get(aka);
 	}
 
+	set(aka:String, v:any) {
+		var n = this._nodes.get(aka);
+		n ? n.nodeValue = (v !== null && v !== undefined ? '' + v : '') : null;
+	}
+
 	setAttribute(aka:string, key:string, val?:string) {
-		const e = this.getElement(aka);
+		const e = this.get(aka);
 		if (e) {
 			if (val) {
 				e.setAttribute(key, val);
@@ -53,16 +60,11 @@ export default class View {
 		}
 	}
 
-	setNode(aka:String, s:string) {
-		var n = this._nodes.get(aka);
-		n ? n.nodeValue = s : null;
-	}
-
 	setData(d:any, useDatapath=true) {
 		useDatapath && this.props.datapath ? d = this.props.datapath(this, d) : null;
 		if (Array.isArray(d)) {
 			this._setArray(d);
-		} else if (d) {
+		} else if (d !== null && d !== undefined) {
 			this.dom.classList.remove('hidden');
 			this.props.ondata ? this.props.ondata(this, d) : null;
 			this.props.childrendata ? d = this.props.childrendata(this, d) : null;
@@ -109,7 +111,7 @@ export default class View {
 	_link() {
 		if (this.parent) {
 			var plug = this.props.plug ? this.props.plug : 'default';
-			var pdom = this.parent.getElement(plug);
+			var pdom = this.parent.get(plug);
 			if (this._cloneOf) {
 				this.props.dom ? null : pdom.insertBefore(this.dom, this._cloneOf.dom);
 			} else {
@@ -134,7 +136,6 @@ export default class View {
 	}
 
 	_init() {
-		this._collectNodes(this.dom);
 		if (!this._nodes.has('default')) {
 			this._nodes.set('default', this.dom);
 		}
@@ -152,6 +153,7 @@ export default class View {
 			var e:HTMLElement = this.root.dom.ownerDocument.createElement('div');
 			e.innerHTML = this.props.markup.replace(/\n\s+/g, '\n');
 			ret = <Element>e.firstElementChild;
+			this._collectNodes(ret);
 		} else {
 			ret = this.root.dom.ownerDocument.createElement('div');
 		}
@@ -164,14 +166,28 @@ export default class View {
 			e.removeAttribute('aka');
 			this._nodes.set(aka, e);
 		}
-		[].forEach.call(e.childNodes, (n:Node) => {
-			if (n.nodeType === Node.ELEMENT_NODE) {
+		[].forEach.call(e.childNodes, (n:Node|null) => {
+			if (n?.nodeType === Node.ELEMENT_NODE) {
 				this._collectNodes(<Element>n);
-			} else if (n.nodeType === Node.TEXT_NODE) {
-				const res = /\[\[(\w+)\]\]/.exec(<string>n.nodeValue);
-				if (res) {
+			} else if (n?.nodeType === Node.TEXT_NODE) {
+				var res;
+				while (n && (res = /\[\[(\w+)\]\]/.exec(<string>n.nodeValue))) {
+					const parent = n.parentElement;
+					console.log(res);
+					if (res.index > 0) {
+						const pre = document.createTextNode(res.input.substr(0, res.index));
+						parent?.insertBefore(pre, n);
+					}
 					n.nodeValue = '';
 					this._nodes.set(res[1], n);
+					if ((res.index + res[0].length) < res.input.length) {
+						const s = res.input.substr(res.index + res[0].length);
+						const post = document.createTextNode(s);
+						parent?.insertBefore(post, n.nextSibling);
+						n = post;
+					} else {
+						n = null;
+					}
 				}
 			}
 		});

@@ -1,5 +1,5 @@
-import { Data } from "../modicum/Data";
-import View, { ViewProps } from "../modicum/View";
+import Data from "../modicum/Data";
+import View from "../modicum/View";
 
 class MenuItems extends View {
 	constructor(parent:View, data:Data, state:Data, menu:Element) {
@@ -8,7 +8,7 @@ class MenuItems extends View {
 			markup: '<ion-item>[[title]]</ion-item>',
 			datapath: (p:View, d) => d.contents,
 			ondata: (p:View, d) => {
-				p.setNode('title', d.title);
+				p.set('title', d.title);
 				p.setAttribute('root', 'color', p.cloneIndex === state.data.current
 					? 'primary'
 					: undefined);
@@ -42,8 +42,8 @@ class Page extends View {
 			</div>`,
 			datapath: (p:View, d) => d.contents[state.data.current],
 			ondata: (p:View, d) => {
-				p.setNode('title', d.title);
-				p.getElement('content').innerHTML = d.html;
+				p.set('title', d.title);
+				p.get('content').innerHTML = d.html;
 			},
 		});
 		data.addConsumer(this);
@@ -62,7 +62,7 @@ function sideMenu() {
 		current: 0,
 	});
 
-	new View(new View(undefined, {dom:document.body}), {
+	new View(View.body, {
 		markup: `<ion-app>
 			<ion-split-pane content-id="main" class="sidemenu-split-pane" aka="split-pane">
 				<ion-menu content-id="main" aka="menu">
@@ -79,7 +79,7 @@ function sideMenu() {
 			</ion-split-pane>
 		</ion-app>`,
 	}, p => {
-		new MenuItems(p, data, state, p.getElement('menu'));
+		new MenuItems(p, data, state, p.get('menu'));
 		new Page(p, data, state);
 	});
 }

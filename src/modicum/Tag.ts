@@ -34,7 +34,7 @@ export default class Tag {
 		});
 	}
 
-	get(id:string): TagView|undefined {
+	getIntance(id:string): View|undefined {
 		return this._ids.get(id);
 	}
 
@@ -55,7 +55,7 @@ export default class Tag {
 export class TagView extends View {
 
 	constructor(props:ViewProps) {
-		super(undefined, props);
+		super(null, props);
 	}
 
 	_makeDom() {
