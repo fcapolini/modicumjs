@@ -19,14 +19,14 @@ export class Data {
 		}
 	}
 
-	addConsumer(c:DataConsumer, setData?:boolean) {
+	addConsumer(c:DataConsumer, setData=true) {
 		this.consumers.push(c);
 		if (setData) {
 			c.setData(this.data);
 		}
 	}
 
-	removeConsumer(c:DataConsumer, setNull?:boolean) {
+	removeConsumer(c:DataConsumer, setNull=false) {
 		const i = this.consumers.indexOf(c);
 		if (i >= 0) {
 			this.consumers = this.consumers.splice(i, 1);
@@ -34,5 +34,9 @@ export class Data {
 		if (setNull) {
 			c.setData(null);
 		}
+	}
+
+	trigger() {
+		this.setData(this.data);
 	}
 }

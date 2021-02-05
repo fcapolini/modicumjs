@@ -14,18 +14,23 @@ export default class View {
 	props: ViewProps;
 	children: View[];
 	userdata: any;
-	dom: Element;
+	dom: HTMLElement;
+	cloneIndex: number;
 
-	constructor(parent:View|undefined, props:ViewProps, didInit?:(v:View)=>void, cloneOf?:View) {
+	constructor(
+		parent:View|undefined, props:ViewProps, didInit?:(v:View)=>void,
+		cloneOf?:View
+	) {
 		this.parent = parent;
 		this.root = (parent ? parent.root : (cloneOf ? cloneOf.root : this));
 		this.props = props;
 		this.userdata = null;
 		this._didInit = didInit;
 		this._cloneOf = cloneOf;
+		this.cloneIndex = -1;
 		this.children = [];
 		this._nodes = new Map();
-		this.dom = this._makeDom();
+		this.dom = <HTMLElement>this._makeDom();
 		this._init();
 		this._link();
 		if (didInit) {
@@ -33,8 +38,19 @@ export default class View {
 		}
 	}
 
-	getElement(aka:String): Element {
+	getElement(aka:string): Element {
 		return <Element>this._nodes.get(aka);
+	}
+
+	setAttribute(aka:string, key:string, val?:string) {
+		const e = this.getElement(aka);
+		if (e) {
+			if (val) {
+				e.setAttribute(key, val);
+			} else {
+				e.removeAttribute(key);
+			}
+		}
 	}
 
 	setNode(aka:String, s:string) {
@@ -42,8 +58,8 @@ export default class View {
 		n ? n.nodeValue = s : null;
 	}
 
-	setData(d:any) {
-		this.props.datapath ? d = this.props.datapath(this, d) : null;
+	setData(d:any, useDatapath=true) {
+		useDatapath && this.props.datapath ? d = this.props.datapath(this, d) : null;
 		if (Array.isArray(d)) {
 			this._setArray(d);
 		} else if (d) {
@@ -63,6 +79,24 @@ export default class View {
 		this._rangeStart = start;
 		this._rangeEnd = end;
 		this._rangeData ? this._setArray(this._rangeData) : null;
+	}
+
+	getPrevClone(): View|null {
+		var ret = null;
+		if (this.cloneIndex > 0) {
+			if (this._cloneOf && this._cloneOf._clones) {
+				ret = this._cloneOf._clones[this.cloneIndex - 1];
+			} else if (this._clones && this._clones.length > 0) {
+				ret = this._clones[this._clones.length - 1];
+			}
+		}
+		return ret;
+	}
+
+	getNextClone(): View|null {
+		var ret = null;
+		//TODO
+		return ret;
 	}
 
 	// =========================================================================
@@ -170,12 +204,15 @@ export default class View {
 		this._clones ? null : this._clones = [];
 		for (var i = 0; i < count; i++) {
 			if (i >= this._clones.length) {
-				this._clones.push(new View(this.parent, this.props, this._didInit, this));
+				const clone = new View(this.parent, this.props, this._didInit, this);
+				clone.cloneIndex = i;
+				this._clones.push(clone);
 			}
-			this._clones[i].setData(v[i]);
+			this._clones[i].setData(v[i], false);
 		}
 		this._clearClones(count);
-		this.setData(v.length > 0 ? v[v.length - 1] : null);
+		this.cloneIndex = v.length - 1;
+		this.setData(v.length > 0 ? v[v.length - 1] : null, false);
 	}
 
 	_clearClones(count=0) {
