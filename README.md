@@ -2,8 +2,6 @@
 
 A minimal yet powerful reactive web framework for people who don't enjoy struggling with Angular, React & co.
 
----
-
 ## Samples
 
 ### Hello World
@@ -87,8 +85,6 @@ data.addConsumer(view);
   ```
 
   exceeding items are discarded, missing items are created, and existing items are updates.
-
----
 
 ## Classes
 
