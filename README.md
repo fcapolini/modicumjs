@@ -105,6 +105,8 @@ interface ViewProps {
 
 ### class View
 
+---
+
 ```typescript
 constructor(parent:View, props:ViewProps, didInit?:(v:View)=>void)
 ```
@@ -113,11 +115,15 @@ Views must normally have a parent. `View.head` and `View.body` are provided as u
 
 A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or build from the `markup` property. The newly created DOM fragment is scanned and named Elements (with the `aka` attribute), plus named texts (with the `[[name]]` syntax, are collected).
 
+---
+
 ```typescript
 get(aka:string): Element
 ```
 
 Returns a named Element, if it exists.
+
+---
 
 ```typescript
 set(aka:String, v:any)
@@ -125,17 +131,23 @@ set(aka:String, v:any)
 
 Sets the textual value of a named text, if it exists.
 
+---
+
 ```typescript
 setAttribute(aka:string, key:string, val?:string)
 ```
 
 Sets or removes an attribute of a named Element.
 
+---
+
 ```typescript
 setData(data:any)
 ```
 
 Dictated by the `DataConsumer` interface. Normally used by `Data` instances.
+
+---
 
 ```typescript
 setDataRange(start:number, end?:number)
@@ -155,11 +167,15 @@ DataConsumers can be registered with Data instances in order to be notified when
 
 ### class Data
 
+---
+
 ```typescript
 constructor(data:any)
 ```
 
 A Data instance is a simple data container. An initial value can be passed at instantiation.
+
+---
 
 ```typescript
 setData(data?:any)
@@ -167,17 +183,23 @@ setData(data?:any)
 
 Can be used to change contained data.
 
+---
+
 ```typescript
 addConsumer(c:DataConsumer, setData=true)
 ```
 
 DataConsumers can be added to a Data instance so they are notified when its contained data change.
 
+---
+
 ```typescript
 removeConsumer(c:DataConsumer, setNull=false)
 ```
 
 Previously added DataConsumers can unregister themselves.
+
+---
 
 ```typescript
 trigger()
@@ -187,6 +209,8 @@ Can be used to force data notification to registered DataConsumers regardless of
 
 ### class Tag
 
+---
+
 ```typescript
 constructor(name:string, props?:ViewProps,
         didInit?:(v:View)=>void, willDispose?:(v:View)=>void)
@@ -194,10 +218,13 @@ constructor(name:string, props?:ViewProps,
 
 A Tag defines a standard [Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements). When an instance is created, a wrapping View is created and the optional `didInit` callback is called. When an instance is destroyed the optional `willDispose` is called.
 
-Custom Elements are useful e.g. for integrating with Web Components-based frameworks like Ionic.
+Custom Elements are useful e.g. for working with Web Components-based frameworks like [Ionic](https://ionicframework.com).
+
+---
 
 ```typescript
 getIntance(id:string): View|undefined
 ```
 
 Instances created with an `id` attribute are accessible via this method.
+
