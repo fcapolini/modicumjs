@@ -9,8 +9,13 @@ export interface ViewProps {
 }
 
 export default class View {
+	static readonly HIDDEN_CLASS = 'modicum-hidden';
 	static body = new View(null, {dom:document.body});
-	static head = new View(null, {dom:document.head});
+	static head = new View(null, {dom:document.head}, p => {
+		const style = document.createElement('style');
+		style.innerHTML = `.${View.HIDDEN_CLASS} {display: none;}`;
+		p.dom.appendChild(style);
+	});
 	parent: View|null;
 	root: View;
 	props: ViewProps;
@@ -65,14 +70,14 @@ export default class View {
 		if (Array.isArray(d)) {
 			this._setArray(d);
 		} else if (d !== null && d !== undefined) {
-			this.dom.classList.remove('hidden');
+			this.dom.classList.remove(View.HIDDEN_CLASS);
 			this.props.ondata ? this.props.ondata(this, d) : null;
 			this.props.childrendata ? d = this.props.childrendata(this, d) : null;
 			this.children.forEach(child => {
 				child.setData(d);
 			});
 		} else {
-			this.dom.classList.add('hidden');
+			this.dom.classList.add(View.HIDDEN_CLASS);
 			this._clearClones();
 		}
 	}
@@ -141,7 +146,7 @@ export default class View {
 		}
 		this._nodes.set('root', this.dom);
 		if (this.props.ondata) {
-			this.dom.classList.add('hidden');
+			this.dom.classList.add(View.HIDDEN_CLASS);
 		}
 	}
 
@@ -177,6 +182,7 @@ export default class View {
 					if (res.index > 0) {
 						const pre = document.createTextNode(res.input.substr(0, res.index));
 						parent?.insertBefore(pre, n);
+						i++;
 					}
 					n.nodeValue = '';
 					this._nodes.set(res[1], n);
@@ -184,6 +190,7 @@ export default class View {
 						const s = res.input.substr(res.index + res[0].length);
 						const post = document.createTextNode(s);
 						parent?.insertBefore(post, n.nextSibling);
+						i++;
 						n = post;
 					} else {
 						n = null;
