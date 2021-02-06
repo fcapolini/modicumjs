@@ -2,12 +2,12 @@ import Data from "../modicum/Data";
 import View from "../modicum/View";
 
 class MenuItems extends View {
-	constructor(parent:View, data:Data, state:Data, menu:Element) {
+	constructor(parent: View, data: Data, state: Data, menu: Element) {
 		super(parent, {
 			plug: 'menu-list',
 			markup: '<ion-item>[[title]]</ion-item>',
-			datapath: (p:View, d) => d.contents,
-			ondata: (p:View, d) => {
+			datapath: (p: View, d) => d.contents,
+			ondata: (p: View, d) => {
 				p.set('title', d.title);
 				p.setAttribute('root', 'color', p.cloneIndex === state.data.current
 					? 'primary'
@@ -25,7 +25,7 @@ class MenuItems extends View {
 }
 
 class Page extends View {
-	constructor(parent:View, data:Data, state:Data) {
+	constructor(parent: View, data: Data, state: Data) {
 		super(parent, {
 			plug: 'split-pane',
 			markup: `<div id="main" class="ion-page">
@@ -40,8 +40,8 @@ class Page extends View {
 					<h1>[[text]]</h1>
 				</ion-content>
 			</div>`,
-			datapath: (p:View, d) => d.contents[state.data.current],
-			ondata: (p:View, d) => {
+			datapath: (p: View, d) => d.contents[state.data.current],
+			ondata: (p: View, d) => {
 				p.set('title', d.title);
 				p.get('content').innerHTML = d.html;
 			},
@@ -53,9 +53,9 @@ class Page extends View {
 function sideMenu() {
 	const data = new Data({
 		contents: [
-			{title:'Inbox', html:`inbox is empty`},
-			{title:'Sent', html:`no sent items`},
-			{title:'Spam', html:`no spam`}
+			{ title: 'Inbox', html: `inbox is empty` },
+			{ title: 'Sent', html: `no sent items` },
+			{ title: 'Spam', html: `no spam` }
 		]
 	});
 	const state = new Data({

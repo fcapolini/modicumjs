@@ -10,8 +10,8 @@
     "url": "git+https://github.com/fcapolini/modicumjs.git"
   },
   "keywords": [
-	"frontend",
-	"ui",
+    "frontend",
+    "ui",
     "declarative",
     "framework",
     "javascript",
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/fcapolini/modicumjs/issues"
   },
-  "homepage": "https://github.com/fcapolini/modicumjs#readme"
+  "homepage": "https://github.com/fcapolini/modicumjs#readme",
+  "dependencies": {
+    "requirejs": "^2.3.6"
+  }
 }

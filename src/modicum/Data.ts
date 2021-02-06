@@ -1,18 +1,18 @@
 
 export interface DataConsumer {
-	setData(d:any): void;
+	setData(d: any): void;
 }
 
 export default class Data {
 	data: any;
 	consumers: DataConsumer[];
 
-	constructor(d:any) {
+	constructor(d: any) {
 		this.data = d;
 		this.consumers = [];
 	}
 
-	setData(d?:any) {
+	setData(d?: any) {
 		this.data = d ? d : null;
 		for (var i in this.consumers) {
 			this.consumers[i].setData(d);
@@ -20,7 +20,7 @@ export default class Data {
 		return this;
 	}
 
-	addConsumer(c:DataConsumer, setData=true) {
+	addConsumer(c: DataConsumer, setData = true) {
 		this.consumers.push(c);
 		if (setData) {
 			c.setData(this.data);
@@ -28,7 +28,7 @@ export default class Data {
 		return this;
 	}
 
-	removeConsumer(c:DataConsumer, setNull=false) {
+	removeConsumer(c: DataConsumer, setNull = false) {
 		const i = this.consumers.indexOf(c);
 		if (i >= 0) {
 			this.consumers = this.consumers.splice(i, 1);

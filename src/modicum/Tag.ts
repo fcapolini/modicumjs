@@ -3,8 +3,8 @@ import View, { ViewProps } from "./View";
 export default class Tag {
 
 	constructor(
-		name:string, props?:ViewProps,
-		didInit?:(v:View)=>void, willDispose?:(v:View)=>void
+		name: string, props?: ViewProps,
+		didInit?: (v: View) => void, willDispose?: (v: View) => void
 	) {
 		this._name = name;
 		this._props = props;
@@ -26,7 +26,7 @@ export default class Tag {
 				that._didInit ? that._didInit(view) : null;
 			}
 			disconnectedCallback() {
-				const nr:number = (<any>this)._tag_instance_nr;
+				const nr: number = (<any>this)._tag_instance_nr;
 				that._willDispose ? that._willDispose(<View>that._instances.get(nr)) : null;
 				this.id && this.id !== '' ? that._ids.delete(this.id) : null;
 				that._instances.delete(nr);
@@ -34,7 +34,7 @@ export default class Tag {
 		});
 	}
 
-	getIntance(id:string): View|undefined {
+	getIntance(id: string): View | undefined {
 		return this._ids.get(id);
 	}
 
@@ -45,8 +45,8 @@ export default class Tag {
 	static _nextNr = 0;
 	_name: string;
 	_props?: ViewProps;
-	_didInit?: (v:View)=>void;
-	_willDispose?: (v:View)=>void;
+	_didInit?: (v: View) => void;
+	_willDispose?: (v: View) => void;
 	_ids: Map<string, TagView>;
 	_instances: Map<number, TagView>;
 
@@ -54,7 +54,7 @@ export default class Tag {
 
 export class TagView extends View {
 
-	constructor(props:ViewProps) {
+	constructor(props: ViewProps) {
 		super(null, props);
 	}
 

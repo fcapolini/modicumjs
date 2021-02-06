@@ -3,7 +3,7 @@ import staticList from "./samples/StaticList";
 import sideMenu from "./samples/SideMenu";
 import dynamicList from "./samples/DynamicList";
 
-export default function() {
+export default function () {
 	// helloWorld();
 	// sideMenu();
 	staticList();

@@ -43,9 +43,9 @@ const view = new View(View.body, {
     ondata: (v:View, d) => v.set('title', d.title)
 });
 
-const item = new View(p, {
+const item = new View(view, {
   plug: 'list',
-  markup: `<li>[[title]]<span>[[count]]</span></li>`,
+  markup: `<li>[[title]]: [[count]]</li>`,
   datapath: (v:View, d) => d.items,
   ondata: (v:View, d) => {
     v.set('title', d.title);
@@ -113,7 +113,7 @@ constructor(parent:View, props:ViewProps, didInit?:(v:View)=>void)
 
 Views must normally have a parent. `View.head` and `View.body` are provided as useful parents. You can create a parent View anchored to any other DOM element if needed (see `View.body` initialization as an example of that).
 
-A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or build from the `markup` property. The newly created DOM fragment is scanned and named Elements (with the `aka` attribute), plus named texts (with the `[[name]]` syntax), are collected.
+A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or built from the `markup` property. The newly created DOM fragment is scanned and named Elements (with the `aka` attribute), plus named texts (with the `[[name]]` syntax), are collected.
 
 ```typescript
 get(aka:string): Element

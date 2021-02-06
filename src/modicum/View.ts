@@ -3,20 +3,20 @@ export interface ViewProps {
 	dom?: Element;
 	markup?: string;
 	plug?: string;
-	datapath?: (v:View, d:any)=>any;
-	ondata?: (v:View, d:any)=>void;
-	childrendata?: (v:View, d:any)=>any;
+	datapath?: (v: View, d: any) => any;
+	ondata?: (v: View, d: any) => void;
+	childrendata?: (v: View, d: any) => any;
 }
 
 export default class View {
 	static readonly HIDDEN_CLASS = 'modicum-hidden';
-	static body = new View(null, {dom:document.body});
-	static head = new View(null, {dom:document.head}, p => {
+	static body = new View(null, { dom: document.body });
+	static head = new View(null, { dom: document.head }, p => {
 		const style = document.createElement('style');
 		style.innerHTML = `.${View.HIDDEN_CLASS} {display: none;}`;
 		p.dom.appendChild(style);
 	});
-	parent: View|null;
+	parent: View | null;
 	root: View;
 	props: ViewProps;
 	children: View[];
@@ -25,8 +25,8 @@ export default class View {
 	cloneIndex: number;
 
 	constructor(
-		parent:View|null, props:ViewProps, didInit?:(v:View)=>void,
-		cloneOf?:View
+		parent: View | null, props: ViewProps, didInit?: (v: View) => void,
+		cloneOf?: View
 	) {
 		this.parent = parent;
 		this.root = (parent ? parent.root : (cloneOf ? cloneOf.root : this));
@@ -45,16 +45,16 @@ export default class View {
 		}
 	}
 
-	get(aka:string): Element {
+	get(aka: string): Element {
 		return <Element>this._nodes.get(aka);
 	}
 
-	set(aka:String, v:any) {
+	set(aka: String, v: any) {
 		var n = this._nodes.get(aka);
 		n ? n.nodeValue = (v !== null && v !== undefined ? '' + v : '') : null;
 	}
 
-	setAttribute(aka:string, key:string, val?:string) {
+	setAttribute(aka: string, key: string, val?: string) {
 		const e = this.get(aka);
 		if (e) {
 			if (val) {
@@ -65,7 +65,7 @@ export default class View {
 		}
 	}
 
-	setData(d:any, useDatapath=true) {
+	setData(d: any, useDatapath = true) {
 		useDatapath && this.props.datapath ? d = this.props.datapath(this, d) : null;
 		if (Array.isArray(d)) {
 			this._setArray(d);
@@ -82,13 +82,13 @@ export default class View {
 		}
 	}
 
-	setDataRange(start:number, end?:number) {
+	setDataRange(start: number, end?: number) {
 		this._rangeStart = start;
 		this._rangeEnd = end;
 		this._rangeData ? this._setArray(this._rangeData) : null;
 	}
 
-	getPrevClone(): View|null {
+	getPrevClone(): View | null {
 		var ret = null;
 		if (this.cloneIndex > 0) {
 			if (this._cloneOf && this._cloneOf._clones) {
@@ -100,7 +100,7 @@ export default class View {
 		return ret;
 	}
 
-	getNextClone(): View|null {
+	getNextClone(): View | null {
 		var ret = null;
 		//TODO
 		return ret;
@@ -109,7 +109,7 @@ export default class View {
 	// =========================================================================
 	// private
 	// =========================================================================
-	_didInit?: (v:View)=>void;
+	_didInit?: (v: View) => void;
 	_cloneOf?: View;
 	_nodes: Map<String, Node>;
 
@@ -133,7 +133,7 @@ export default class View {
 		}
 	}
 
-	_removeChild(child:View) {
+	_removeChild(child: View) {
 		var i = this.children.indexOf(child);
 		if (i >= 0) {
 			this.children = this.children.splice(i, 1);
@@ -155,7 +155,7 @@ export default class View {
 		if (this.props.dom) {
 			ret = this.props.dom;
 		} else if (this.props.markup) {
-			var e:HTMLElement = this.root.dom.ownerDocument.createElement('div');
+			var e: HTMLElement = this.root.dom.ownerDocument.createElement('div');
 			e.innerHTML = this.props.markup.replace(/\n\s+/g, '\n');
 			ret = <Element>e.firstElementChild;
 			this._collectNodes(ret);
@@ -165,14 +165,14 @@ export default class View {
 		return ret;
 	}
 
-	_collectNodes(e:Element) {
+	_collectNodes(e: Element) {
 		var aka = e.getAttribute('aka');
 		if (aka != null) {
 			e.removeAttribute('aka');
 			this._nodes.set(aka, e);
 		}
 		for (var i = 0; i < e.childNodes.length; i++) {
-			var n = <Node|null>e.childNodes[i];
+			var n = <Node | null>e.childNodes[i];
 			if (n?.nodeType === Node.ELEMENT_NODE) {
 				this._collectNodes(<Element>n);
 			} else if (n?.nodeType === Node.TEXT_NODE) {
@@ -216,7 +216,7 @@ export default class View {
 	- if one, only the original View exists, populated and visible
 	- if more than one, the original View is the last element of the sequence
 	*/
-	_setArray(v:any[]) {
+	_setArray(v: any[]) {
 		this._rangeData = v;
 		if (this._rangeStart != 0 || this._rangeEnd) {
 			v = this._rangeEnd
@@ -238,7 +238,7 @@ export default class View {
 		this.setData(v.length > 0 ? v[v.length - 1] : null, false);
 	}
 
-	_clearClones(count=0) {
+	_clearClones(count = 0) {
 		if (this._clones) {
 			while (this._clones.length > count) {
 				this._clones.pop()?._unlink();
