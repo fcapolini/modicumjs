@@ -36,4 +36,5 @@ ln -s ../node_modules/@ionic ionic
 * [npm-init](https://docs.npmjs.com/cli/v6/commands/npm-init)
 * [npm-install](https://docs.npmjs.com/cli/v6/commands/npm-install)
 * [npm-link](https://docs.npmjs.com/cli/v6/commands/npm-link)
+* [npm-pack](https://docs.npmjs.com/cli/v6/commands/npm-pack)
 * [npm-publish](https://docs.npmjs.com/cli/v6/commands/npm-publish)

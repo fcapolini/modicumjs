@@ -2,7 +2,7 @@
 
 A minimalist yet powerful reactive web framework for people who don't paricularly enjoy working with beasts like Angular, React & co.
 
-Its simplicity is your best guarantee: you can easily gain full control of its code, work around its quirks and build on its features as you see fit for your projects. No more climbing steep learning curves, getting stuck, searching forums and second guessing your framework's inner workings.
+Its simplicity is your power: you can easily gain full control of its code, work around its quirks and build on its features as you see fit for your projects. No more climbing of steep learning curves, getting stuck, searching forums and second guessing your framework's inner workings.
 
 ## Samples
 
@@ -73,7 +73,7 @@ data.addConsumer(view);
 
 * Views propagate data to their children, so `item` also consumes `data`'s content
 
-* `item` refines the data it receives with the `datapath` property
+* `item` refines the data it receives using the `datapath` property
 
 * the refined data is the `items` array, so it automatically clones itself for each element of it
 
@@ -86,7 +86,7 @@ data.addConsumer(view);
   ]});
   ```
 
-  exceeding clones are discarded, missing clones are created, and existing clones are updated.
+  existing clones are updated, missing clones are created, and exceeding clones are discarded.
 
 ## Classes
 
