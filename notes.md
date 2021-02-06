@@ -30,3 +30,10 @@ npm install @ionic/core
 cd app
 ln -s ../node_modules/@ionic ionic
 ```
+
+## npm notes
+
+* [npm-init](https://docs.npmjs.com/cli/v6/commands/npm-init)
+* [npm-install](https://docs.npmjs.com/cli/v6/commands/npm-install)
+* [npm-link](https://docs.npmjs.com/cli/v6/commands/npm-link)
+* [npm-publish](https://docs.npmjs.com/cli/v6/commands/npm-publish)

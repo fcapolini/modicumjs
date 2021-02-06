@@ -1,6 +1,8 @@
 # ModicumJS
 
-A minimal yet powerful reactive web framework for people who don't enjoy struggling with Angular, React & co.
+A minimalist yet powerful reactive web framework for people who don't paricularly enjoy working with beasts like Angular, React & co.
+
+Its simplicity is your best guarantee: you can easily gain full control of its code, work around its quirks and build on its features as you see fit for your projects. No more climbing steep learning curves, getting stuck, searching forums and second guessing your framework's inner workings.
 
 ## Samples
 
@@ -88,7 +90,7 @@ data.addConsumer(view);
 
 ## Classes
 
-ModicumJS is a truly minimal yet fully functional reactive web framework. It has no dependencies and includes only three classes and two interfaces.
+ModicumJS is a truly minimalist yet fully functional reactive web framework. It only includes three classes and two interfaces, and it only depend on [RequireJS](https://requirejs.org). It's written in TypeScript and can be used in both TypeScript and JavaScript projects.
 
 ### interface ViewProps
 
@@ -111,7 +113,7 @@ constructor(parent:View, props:ViewProps, didInit?:(v:View)=>void)
 
 Views must normally have a parent. `View.head` and `View.body` are provided as useful parents. You can create a parent View anchored to any other DOM element if needed (see `View.body` initialization as an example of that).
 
-A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or build from the `markup` property. The newly created DOM fragment is scanned and named Elements (with the `aka` attribute), plus named texts (with the `[[name]]` syntax, are collected).
+A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or build from the `markup` property. The newly created DOM fragment is scanned and named Elements (with the `aka` attribute), plus named texts (with the `[[name]]` syntax), are collected.
 
 ```typescript
 get(aka:string): Element
@@ -123,7 +125,7 @@ Returns a named Element, if it exists.
 set(aka:String, v:any)
 ```
 
-Sets the textual value of a named text, if it exists.
+Sets the textual value of a named text, if it exists. If `v` is null or undefined it sets an empty string.
 
 ```typescript
 setAttribute(aka:string, key:string, val?:string)
@@ -135,7 +137,7 @@ Sets or removes an attribute of a named Element.
 setData(data:any)
 ```
 
-Dictated by the `DataConsumer` interface. Normally used by `Data` instances.
+Dictated by the `DataConsumer` interface. Normally used by `Data` instances to make Views visually reflect data changes.
 
 ```typescript
 setDataRange(start:number, end?:number)
@@ -192,9 +194,9 @@ constructor(name:string, props?:ViewProps,
         didInit?:(v:View)=>void, willDispose?:(v:View)=>void)
 ```
 
-A Tag defines [Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements). When an instance of that element is created, a wrapping View is created in turn and the optional `didInit` callback is called. When an instance is destroyed the optional `willDispose` is called.
+A Tag defines a [Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements). When an instance of that element is created, a wrapping View is created in turn and the optional `didInit` callback is called. When an instance is destroyed the optional `willDispose` is called.
 
-Custom Elements are useful e.g. for working with [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)-based frameworks like [Ionic](https://ionicframework.com). Ionic `<ion-router>` and `<ion-nav>`, for example, work with components defined as custom tags to implement navigation.
+Custom Elements are useful e.g. for working with [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)-based frameworks like [Ionic](https://ionicframework.com). Ionic's `<ion-router>` and `<ion-nav>`, for example, work with components defined as custom tags to implement navigation.
 
 ```typescript
 getIntance(id:string): View|undefined

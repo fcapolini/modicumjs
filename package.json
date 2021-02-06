@@ -1,0 +1,29 @@
+{
+  "name": "modicumjs",
+  "version": "0.5.0",
+  "description": "A minimal yet powerful reactive web framework",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fcapolini/modicumjs.git"
+  },
+  "keywords": [
+	"frontend",
+	"ui",
+    "declarative",
+    "framework",
+    "javascript",
+    "library",
+    "minimalist",
+    "reactive",
+    "typescript"
+  ],
+  "author": "Fabrizio Capolini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fcapolini/modicumjs/issues"
+  },
+  "homepage": "https://github.com/fcapolini/modicumjs#readme"
+}
