@@ -12,7 +12,7 @@ function dynamicList() {
 
 	const items = new View(list, {
 		plug: 'list',
-		markup: `<li>[[title]]<span>[[count]]</span></li>`,
+		markup: `<li>[[title]] <span>[[count]]</span></li>`,
 		datapath: (v:View, d) => d.items,
 		ondata: (v:View, d) => {
 			v.set('title', d.title);

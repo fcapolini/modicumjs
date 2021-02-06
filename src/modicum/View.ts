@@ -166,14 +166,14 @@ export default class View {
 			e.removeAttribute('aka');
 			this._nodes.set(aka, e);
 		}
-		[].forEach.call(e.childNodes, (n:Node|null) => {
+		for (var i = 0; i < e.childNodes.length; i++) {
+			var n = <Node|null>e.childNodes[i];
 			if (n?.nodeType === Node.ELEMENT_NODE) {
 				this._collectNodes(<Element>n);
 			} else if (n?.nodeType === Node.TEXT_NODE) {
 				var res;
 				while (n && (res = /\[\[(\w+)\]\]/.exec(<string>n.nodeValue))) {
 					const parent = n.parentElement;
-					console.log(res);
 					if (res.index > 0) {
 						const pre = document.createTextNode(res.input.substr(0, res.index));
 						parent?.insertBefore(pre, n);
@@ -190,7 +190,7 @@ export default class View {
 					}
 				}
 			}
-		});
+		}
 	}
 
 	// =========================================================================
