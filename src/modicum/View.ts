@@ -107,6 +107,22 @@ export default class View implements DataConsumer {
 		return ret;
 	}
 
+	static createElement(
+		name:string, attributes?:any,
+		html?:string, parent?:Element
+	): Element {
+		const ret = document.createElement(name);
+		for (const key in attributes) {
+			if (Object.prototype.hasOwnProperty.call(attributes, key)) {
+				const value = attributes[key];
+				ret.setAttribute(key, value);
+			}
+		}
+		html ? ret.innerHTML = html : null;
+		parent ? parent.appendChild(ret) : null;
+		return ret;
+	}
+
 	// =========================================================================
 	// private
 	// =========================================================================
