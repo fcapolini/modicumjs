@@ -3,6 +3,7 @@ import { DataConsumer } from "./Data";
 export interface ViewProps {
 	dom?: Element;
 	markup?: string;
+	id?: string;
 	plug?: string;
 	datapath?: (v: View, d: any) => any;
 	ondata?: (v: View, d: any) => void;
@@ -40,6 +41,7 @@ export default class View implements DataConsumer {
 		this._nodes = new Map();
 		this.dom = <HTMLElement>this._makeDom();
 		this._init();
+		props.id ? this.dom.id = props.id : null;
 		this._link();
 		if (didInit) {
 			didInit(this);
