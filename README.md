@@ -1,6 +1,6 @@
 # ModicumJS
 
-A minimalist yet powerful reactive web framework for people who don't paricularly enjoy working with beasts like Angular, React & co.
+A minimalist yet powerful reactive web framework for people who don't paricularly enjoy working with Angular, React & co.
 
 Its simplicity is your power: you can easily gain full control of its code, work around its quirks and build on its features as you see fit for your projects. No more climbing of steep learning curves, getting stuck, searching forums and second guessing your framework's inner workings.
 
@@ -90,7 +90,7 @@ data.addConsumer(view);
 
 ## Classes
 
-ModicumJS is a truly minimalist yet fully functional reactive web framework. It only includes three classes and two interfaces, and it only depend on [RequireJS](https://requirejs.org). It's written in TypeScript and can be used in both TypeScript and JavaScript projects.
+ModicumJS is a truly minimalist yet fully functional reactive web framework. It includes just three classes and two interfaces, and it only depends on [RequireJS](https://requirejs.org). It's written in TypeScript and can be used in both TypeScript and JavaScript projects.
 
 ### interface ViewProps
 
@@ -113,7 +113,7 @@ constructor(parent:View, props:ViewProps, didInit?:(v:View)=>void)
 
 Views must normally have a parent. `View.head` and `View.body` are provided as useful parents. You can create a parent View anchored to any other DOM element if needed (see `View.body` initialization as an example of that).
 
-A View wraps a fragment of the DOM. The fragment can be can be passed with the `dom` property or built from the `markup` property. The newly created DOM fragment is scanned and named Elements (with the `aka` attribute), plus named texts (with the `[[name]]` syntax), are collected.
+A View wraps a fragment of the DOM. The fragment can be passed with the `dom` property or built from the `markup` property. The newly created DOM fragment is scanned and named Elements (with the `aka` attribute), plus named texts (with the `[[name]]` syntax), are collected.
 
 ```typescript
 get(aka:string): Element
@@ -137,7 +137,7 @@ Sets or removes an attribute of a named Element.
 setData(data:any)
 ```
 
-Dictated by the `DataConsumer` interface. Normally used by `Data` instances to make Views visually reflect data changes.
+Dictated by the `DataConsumer` interface. Normally used by `Data` instances to make Views visually reflect data changes. If `data` is an array the View is replicated as needed. If `data` is null or undefined, the View is hidden.
 
 ```typescript
 setDataRange(start:number, end?:number)
@@ -203,4 +203,3 @@ getIntance(id:string): View|undefined
 ```
 
 Instances created with an `id` attribute are accessible via this method. Giving different IDs to different instances of the same custom tag allows us to access and interact with each instance's wrapping View.
-
