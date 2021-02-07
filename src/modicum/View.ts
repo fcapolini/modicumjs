@@ -1,3 +1,4 @@
+import { DataConsumer } from "./Data";
 
 export interface ViewProps {
 	dom?: Element;
@@ -8,7 +9,7 @@ export interface ViewProps {
 	childrendata?: (v: View, d: any) => any;
 }
 
-export default class View {
+export default class View implements DataConsumer {
 	static readonly HIDDEN_CLASS = 'modicum-hidden';
 	static body = new View(null, { dom: document.body });
 	static head = new View(null, { dom: document.head }, p => {

@@ -44,13 +44,13 @@ const view = new View(View.body, {
 });
 
 const item = new View(view, {
-  plug: 'list',
-  markup: `<li>[[title]]: [[count]]</li>`,
-  datapath: (v:View, d) => d.items,
-  ondata: (v:View, d) => {
-    v.set('title', d.title);
-    v.set('count', d.count);
-  }
+    plug: 'list',
+    markup: `<li>[[title]]: [[count]]</li>`,
+    datapath: (v:View, d) => d.items,
+    ondata: (v:View, d) => {
+        v.set('title', d.title);
+        v.set('count', d.count);
+    }
 });
 
 const data = new Data({
