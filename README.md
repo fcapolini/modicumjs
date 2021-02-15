@@ -1,6 +1,6 @@
 # ModicumJS
 
-A minimalist yet powerful reactive web framework for people who don't paricularly enjoy working with Angular, React & co.
+A minimalist yet powerful reactive web framework for people who don't particularly enjoy working with Angular, React & co.
 
 Its simplicity is your power: you can easily gain full control of its code, work around its quirks and build on its features as you see fit for your projects. No more climbing of steep learning curves, getting stuck, searching forums and second guessing your framework's inner workings.
 
@@ -137,7 +137,7 @@ Sets or removes an attribute of a named Element.
 setData(data:any)
 ```
 
-Dictated by the `DataConsumer` interface. Normally used by `Data` instances to make Views visually reflect data changes. If `data` is an array the View is replicated as needed. If `data` is null or undefined, the View is hidden.
+Dictated by the `DataConsumer` interface. Normally used by `Data` instances to make Views visually reflect data changes. If `data` is an array the View is replicated as needed. If `data` is null, undefined, or is an empty array the View is hidden.
 
 ```typescript
 setDataRange(start:number, end?:number)

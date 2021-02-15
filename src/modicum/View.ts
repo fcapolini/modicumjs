@@ -54,21 +54,35 @@ export default class View implements DataConsumer {
 
 	set(aka: String, v: any) {
 		var n = this._nodes.get(aka);
-		n ? n.nodeValue = (v !== null && v !== undefined ? '' + v : '') : null;
+		v = (v !== null && v !== undefined ? '' + v : '');
+		n && n.nodeValue !== v ? n.nodeValue = v : null;
 	}
 
 	setAttribute(aka: string, key: string, val?: string) {
 		const e = this.get(aka);
 		if (e) {
 			if (val) {
-				e.setAttribute(key, val);
+				if (e.getAttribute(key) !== val) {
+					e.setAttribute(key, val);
+				}
 			} else {
 				e.removeAttribute(key);
 			}
 		}
 	}
 
+	setClass(aka: string, name: string, flag: boolean) {
+		const e = this.get(aka);
+		e ? (flag ? e.classList.add(name) : e.classList.remove(name)) : null;
+	}
+
+	addEventListener(aka: string, type: string, handler: (ev:any) => void) {
+		const e = this.get(aka);
+		e ? e.addEventListener(type, handler) : null;
+	}
+
 	setData(d: any, useDatapath = true) {
+		this._data = d;
 		useDatapath && this.props.datapath ? d = this.props.datapath(this, d) : null;
 		if (Array.isArray(d)) {
 			this._setArray(d);
@@ -83,6 +97,10 @@ export default class View implements DataConsumer {
 			this.dom.classList.add(View.HIDDEN_CLASS);
 			this._clearClones();
 		}
+	}
+
+	refresh() {
+		this.setData(this._data);
 	}
 
 	setDataRange(start: number, end?: number) {
@@ -130,6 +148,7 @@ export default class View implements DataConsumer {
 	// =========================================================================
 	_didInit?: (v: View) => void;
 	_cloneOf?: View;
+	_data?: any;
 	_nodes: Map<String, Node>;
 
 	_link() {
