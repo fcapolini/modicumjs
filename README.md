@@ -1,6 +1,6 @@
 # ModicumJS
 
-A minimalist yet powerful reactive web framework for people who don't particularly enjoy working with Angular, React & co.
+A minimalist yet powerful reactive web app framework for people who don't particularly enjoy working with Angular, React & co.
 
 Its simplicity is your power: you can easily gain full control of its code, work around its quirks and build on its features as you see fit for your projects. No more climbing of steep learning curves, getting stuck, searching forums and second guessing your framework's inner workings.
 
