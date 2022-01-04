@@ -196,7 +196,7 @@ constructor(name:string, props?:ViewProps,
 
 A Tag defines a [Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements). When an instance of that element is created, a wrapping View is created in turn and the optional `didInit` callback is called. When an instance is destroyed the optional `willDispose` is called.
 
-Custom Elements are useful e.g. for working with [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)-based frameworks like [Ionic](https://ionicframework.com). Ionic's `<ion-router>` and `<ion-nav>`, for example, work with components defined as custom tags to implement navigation.
+Custom Elements are useful e.g. for working with [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)-based frameworks like [Ionic](https://ionicframework.com). Ionic's `<ion-router>` and `<ion-nav>`, for example, work with components defined as custom elements to implement navigation.
 
 ```typescript
 getIntance(id:string): View|undefined
