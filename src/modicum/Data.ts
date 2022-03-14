@@ -31,7 +31,7 @@ export default class Data {
 	removeConsumer(c: DataConsumer, setNull = false) {
 		const i = this.consumers.indexOf(c);
 		if (i >= 0) {
-			this.consumers = this.consumers.splice(i, 1);
+			this.consumers.splice(i, 1);
 		}
 		if (setNull) {
 			c.setData(null);

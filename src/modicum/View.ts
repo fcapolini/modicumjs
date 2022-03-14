@@ -174,7 +174,7 @@ export default class View implements DataConsumer {
 	_removeChild(child: View) {
 		var i = this.children.indexOf(child);
 		if (i >= 0) {
-			this.children = this.children.splice(i, 1);
+			this.children.splice(i, 1);
 		}
 	}
 
