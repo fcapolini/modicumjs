@@ -5,6 +5,7 @@ export interface ViewProps {
 	markup?: string;
 	id?: string;
 	plug?: string;
+	style?: string;
 	datapath?: (v: View, d: any) => any;
 	ondata?: (v: View, d: any) => void;
 	childrendata?: (v: View, d: any) => any;
@@ -18,6 +19,7 @@ export default class View implements DataConsumer {
 		style.innerHTML = `.${View.HIDDEN_CLASS} {display: none;}`;
 		p.dom.appendChild(style);
 	});
+	static styles = new Set<string>();
 	parent: View | null;
 	root: View;
 	props: ViewProps;
@@ -185,6 +187,11 @@ export default class View implements DataConsumer {
 		this._nodes.set('root', this.dom);
 		if (this.props.ondata) {
 			this.dom.classList.add(View.HIDDEN_CLASS);
+		}
+		if (this.props.style && !View.styles.has(this.props.style)) {
+			const e = document.createElement('style');
+			e.innerHTML = this.props.style;
+			document.head.appendChild(e);
 		}
 	}
 
