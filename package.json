@@ -1,6 +1,6 @@
 {
   "name": "modicum",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A minimal yet powerful reactive web framework",
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' mocha -r ts-node/register 'test/**/*.ts'",
