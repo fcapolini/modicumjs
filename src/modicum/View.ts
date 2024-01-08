@@ -36,26 +36,26 @@ export default class View implements DataConsumer {
 		this.root = (parent ? parent.root : (cloneOf ? cloneOf.root : this));
 		this.props = props;
 		this.userdata = null;
-		this.#didInit = didInit;
-		this.#cloneOf = cloneOf;
+		this._didInit = didInit;
+		this._cloneOf = cloneOf;
 		this.cloneIndex = -1;
 		this.children = [];
-		this.#nodes = new Map();
-		this.dom = <HTMLElement>this.#makeDom();
-		this.#init();
+		this._nodes = new Map();
+		this.dom = <HTMLElement>this._makeDom();
+		this._init();
 		props.id ? this.dom.id = props.id : null;
-		this.#link();
+		this._link();
 		if (didInit) {
 			didInit(this);
 		}
 	}
 
 	get(aka: string): Element {
-		return <Element>this.#nodes.get(aka);
+		return <Element>this._nodes.get(aka);
 	}
 
 	set(aka: String, v: any) {
-		var n = this.#nodes.get(aka);
+		var n = this._nodes.get(aka);
 		v = (v !== null && v !== undefined ? '' + v : '');
 		n && n.nodeValue !== v ? n.nodeValue = v : null;
 	}
@@ -84,10 +84,10 @@ export default class View implements DataConsumer {
 	}
 
 	setData(d: any, useDatapath = true) {
-		this.#data = d;
+		this._data = d;
 		useDatapath && this.props.datapath ? d = this.props.datapath(this, d) : null;
 		if (Array.isArray(d)) {
-			this.#setArray(d);
+			this._setArray(d);
 		} else if (d !== null && d !== undefined) {
 			this.dom.classList.remove(View.HIDDEN_CLASS);
 			this.props.ondata ? this.props.ondata(this, d) : null;
@@ -97,27 +97,27 @@ export default class View implements DataConsumer {
 			});
 		} else {
 			this.dom.classList.add(View.HIDDEN_CLASS);
-			this.#clearClones();
+			this._clearClones();
 		}
 	}
 
 	refresh() {
-		this.setData(this.#data);
+		this.setData(this._data);
 	}
 
 	setDataRange(start: number, end?: number) {
-		this.#rangeStart = start;
-		this.#rangeEnd = end;
-		this.#rangeData ? this.#setArray(this.#rangeData) : null;
+		this._rangeStart = start;
+		this._rangeEnd = end;
+		this._rangeData ? this._setArray(this._rangeData) : null;
 	}
 
 	getPrevClone(): View | null {
 		var ret = null;
 		if (this.cloneIndex > 0) {
-			if (this.#cloneOf && this.#cloneOf.#clones) {
-				ret = this.#cloneOf.#clones[this.cloneIndex - 1];
-			} else if (this.#clones && this.#clones.length > 0) {
-				ret = this.#clones[this.#clones.length - 1];
+			if (this._cloneOf && this._cloneOf._clones) {
+				ret = this._cloneOf._clones[this.cloneIndex - 1];
+			} else if (this._clones && this._clones.length > 0) {
+				ret = this._clones[this._clones.length - 1];
 			}
 		}
 		return ret;
@@ -148,17 +148,17 @@ export default class View implements DataConsumer {
 	// =========================================================================
 	// private
 	// =========================================================================
-	#didInit?: (v: View) => void;
-	#cloneOf?: View;
-	#data?: any;
-	#nodes: Map<String, Node>;
+	_didInit?: (v: View) => void;
+	_cloneOf?: View;
+	_data?: any;
+	_nodes: Map<String, Node>;
 
-	#link() {
+	_link() {
 		if (this.parent) {
 			var plug = this.props.plug ? this.props.plug : 'default';
 			var pdom = this.parent.get(plug);
-			if (this.#cloneOf) {
-				this.props.dom ? null : pdom.insertBefore(this.dom, this.#cloneOf.dom);
+			if (this._cloneOf) {
+				this.props.dom ? null : pdom.insertBefore(this.dom, this._cloneOf.dom);
 			} else {
 				this.parent.children.push(this);
 				this.props.dom ? null : pdom.appendChild(this.dom);
@@ -166,25 +166,25 @@ export default class View implements DataConsumer {
 		}
 	}
 
-	#unlink() {
+	_unlink() {
 		if (this.parent != null) {
-			this.#cloneOf ? null : this.parent.#removeChild(this);
+			this._cloneOf ? null : this.parent._removeChild(this);
 			this.dom.remove();
 		}
 	}
 
-	#removeChild(child: View) {
+	_removeChild(child: View) {
 		var i = this.children.indexOf(child);
 		if (i >= 0) {
 			this.children.splice(i, 1);
 		}
 	}
 
-	#init() {
-		if (!this.#nodes.has('default')) {
-			this.#nodes.set('default', this.dom);
+	_init() {
+		if (!this._nodes.has('default')) {
+			this._nodes.set('default', this.dom);
 		}
-		this.#nodes.set('root', this.dom);
+		this._nodes.set('root', this.dom);
 		if (this.props.ondata) {
 			this.dom.classList.add(View.HIDDEN_CLASS);
 		}
@@ -195,7 +195,7 @@ export default class View implements DataConsumer {
 		}
 	}
 
-	#makeDom(): Element {
+	_makeDom(): Element {
 		var ret: Element;
 		if (this.props.dom) {
 			ret = this.props.dom;
@@ -203,23 +203,23 @@ export default class View implements DataConsumer {
 			var e: HTMLElement = this.root.dom.ownerDocument.createElement('div');
 			e.innerHTML = this.props.markup.replace(/\n\s+/g, '\n');
 			ret = <Element>e.firstElementChild;
-			this.#collectNodes(ret);
+			this._collectNodes(ret);
 		} else {
 			ret = this.root.dom.ownerDocument.createElement('div');
 		}
 		return ret;
 	}
 
-	#collectNodes(e: Element) {
+	_collectNodes(e: Element) {
 		var aka = e.getAttribute('aka');
 		if (aka != null) {
 			e.removeAttribute('aka');
-			this.#nodes.set(aka, e);
+			this._nodes.set(aka, e);
 		}
 		for (var i = 0; i < e.childNodes.length; i++) {
 			var n = <Node | null>e.childNodes[i];
 			if (n?.nodeType === Node.ELEMENT_NODE) {
-				this.#collectNodes(<Element>n);
+				this._collectNodes(<Element>n);
 			} else if (n?.nodeType === Node.TEXT_NODE) {
 				var res;
 				while (n && (res = /\[\[(\w+)\]\]/.exec(<string>n.nodeValue))) {
@@ -230,7 +230,7 @@ export default class View implements DataConsumer {
 						i++;
 					}
 					n.nodeValue = '';
-					this.#nodes.set(res[1], n);
+					this._nodes.set(res[1], n);
 					if ((res.index + res[0].length) < res.input.length) {
 						const s = res.input.substr(res.index + res[0].length);
 						const post = document.createTextNode(s);
@@ -248,10 +248,10 @@ export default class View implements DataConsumer {
 	// =========================================================================
 	// replication
 	// =========================================================================
-	#rangeStart = 0;
-	#rangeEnd?: number = undefined;
-	#rangeData?: any[] = undefined;
-	#clones?: View[] = undefined;
+	_rangeStart = 0;
+	_rangeEnd?: number = undefined;
+	_rangeData?: any[] = undefined;
+	_clones?: View[] = undefined;
 
 	/*
 	Clones are Views whose cloneOf is set and they're only linked into
@@ -261,32 +261,32 @@ export default class View implements DataConsumer {
 	- if one, only the original View exists, populated and visible
 	- if more than one, the original View is the last element of the sequence
 	*/
-	#setArray(v: any[]) {
-		this.#rangeData = v;
-		if (this.#rangeStart != 0 || this.#rangeEnd) {
-			v = this.#rangeEnd
-				? v.slice(this.#rangeStart, this.#rangeEnd)
-				: v.slice(this.#rangeStart);
+	_setArray(v: any[]) {
+		this._rangeData = v;
+		if (this._rangeStart != 0 || this._rangeEnd) {
+			v = this._rangeEnd
+				? v.slice(this._rangeStart, this._rangeEnd)
+				: v.slice(this._rangeStart);
 		}
 		var count = Math.max(v.length - 1, 0);
-		this.#clones ? null : this.#clones = [];
+		this._clones ? null : this._clones = [];
 		for (var i = 0; i < count; i++) {
-			if (i >= this.#clones.length) {
-				const clone = new View(this.parent, this.props, this.#didInit, this);
+			if (i >= this._clones.length) {
+				const clone = new View(this.parent, this.props, this._didInit, this);
 				clone.cloneIndex = i;
-				this.#clones.push(clone);
+				this._clones.push(clone);
 			}
-			this.#clones[i].setData(v[i], false);
+			this._clones[i].setData(v[i], false);
 		}
-		this.#clearClones(count);
+		this._clearClones(count);
 		this.cloneIndex = v.length - 1;
 		this.setData(v.length > 0 ? v[v.length - 1] : null, false);
 	}
 
-	#clearClones(count = 0) {
-		if (this.#clones) {
-			while (this.#clones.length > count) {
-				(this.#clones.pop() as View).#unlink();
+	_clearClones(count = 0) {
+		if (this._clones) {
+			while (this._clones.length > count) {
+				(this._clones.pop() as View)._unlink();
 			}
 		}
 	}

@@ -1,12 +1,12 @@
 {
-  "name": "modicumjs",
+  "name": "modicum",
   "version": "0.5.0",
   "description": "A minimal yet powerful reactive web framework",
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' mocha -r ts-node/register 'test/**/*.ts'",
     "build": "tsc",
     "install-lib": "npm install -g .",
-    "uninstall-lib": "npm uninstall -g modicumjs",
+    "uninstall-lib": "npm uninstall -g modicum",
     "list-installed": "npm ls -g --depth=0",
     "test-win": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && mocha -r ts-node/register 'test/**/*.ts'"
   },
